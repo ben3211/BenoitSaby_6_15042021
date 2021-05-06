@@ -1,7 +1,9 @@
-// Importation de express / et body-parser / mongoose
+// Importation de express / et body-parser / mongoose / path (donne axcés au chemin d'un systéme de fichier ?)
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require ('path');
 
+// Importation du router
 const saucesRoutes = require ('./routes/sauces');
 const userRoutes = require('./routes/user');
 
@@ -25,8 +27,12 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
+// Multer, répondre aux requêtes envoyer à '/images/ et servir le dossier statique 'image'
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
 // On enregistrer notre routeur pour toutes les demandes effectuées vers /api/sauces
 app.use ('/api/sauces', saucesRoutes);
+// Enregistrement route attendu par le frontend (auth => racine de tous ce qui est lié à l'authentification)
 app.use('/api/auth', userRoutes);
 
 // On exporte notre app pour pouvoir l'utiliser dans notre projet, notamment le serveur node
