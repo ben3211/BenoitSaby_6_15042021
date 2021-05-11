@@ -5,7 +5,7 @@ const router = express.Router();
 // Le controleur pour associé les fonctions au différentes routes
 const userCtrl = require('../controllers/user');
 
-// Création de deux routes/ routes POST car le frontend envoi l'adresse mail et le mots de passe
+// Création de deux routes signup et login, ainsi que les middlewares de sécurité
 router.post('/signup', userCtrl.signup);
 router.post('/login', userCtrl.login);
 

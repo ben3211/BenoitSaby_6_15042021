@@ -16,7 +16,7 @@ const multer = require ('../middleware/multer-config')
 router.post ('/', auth, multer, saucesCtrl.creatSauces);
 
 // Route PUT / modifier
-router.put('/:id', auth, saucesCtrl.modifySauces);
+router.put('/:id', auth, multer, saucesCtrl.modifySauces);
 
 // Route DELETE
 router.delete('/:id', auth, saucesCtrl.deleteSauces);
@@ -26,5 +26,7 @@ router.get('/:id', auth, saucesCtrl.getOneSauces);
 
 // Route GET, le premier argument est l'éxtension de l'URL visé par l'application (appellé: route/end point)
 router.get('/', auth, saucesCtrl.getAllSauces);
+
+router.post('/:id/like', auth, saucesCtrl.likeSauces);
 
 module.exports = router;
