@@ -1,12 +1,15 @@
-// Besoin de express
-const express = require('express');
 // Création du router
-const router = express.Router();
+// Besoin de express
 // Le controleur pour associé les fonctions au différentes routes
-const userCtrl = require('../controllers/user');
+const express = require ('express');
+const router = express.Router ();
+const userCtrl = require ('../controllers/user');
+
+const passwordVerification = require ('../middleware/passwordVerification')
+const emailValidator = require ('../middleware/emailValidator')
 
 // Création de deux routes signup et login, ainsi que les middlewares de sécurité
-router.post('/signup', userCtrl.signup);
+router.post('/signup', emailValidator, passwordVerification, userCtrl.signup);
 router.post('/login', userCtrl.login);
 
 // On exporte le router

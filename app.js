@@ -1,7 +1,8 @@
-// Importation de express / et body-parser / mongoose / path (donne axcés au chemin d'un systéme de fichier ?)
+// Importation de express / et body-parser / mongoose / path (donne axcés au chemin d'un systéme de fichier ?) / Helmet protége en configurant les en tête http de maniére appropriée
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require ('path');
+const helmet = require("helmet");
 
 // Importation du router
 const saucesRoutes = require ('./routes/sauces');
@@ -29,6 +30,9 @@ app.use(express.json());
 
 // Multer, répondre aux requêtes envoyer à '/images/ et servir le dossier statique 'image'
 app.use('/images', express.static(path.join(__dirname, 'images')));
+
+// helmet
+app.use(helmet());
 
 // On enregistrer notre routeur pour toutes les demandes effectuées vers /api/sauces
 app.use ('/api/sauces', saucesRoutes);
