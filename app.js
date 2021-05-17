@@ -3,14 +3,17 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require ('path');
 const helmet = require("helmet");
+const session = require ('cookie-session');
 
 // Importation du router
 const saucesRoutes = require ('./routes/sauces');
 const userRoutes = require('./routes/user');
 
+// Variable environnement pour sécursé les informations de la DB
+require ('dotenv').config();
 
 // Connection à la base de donnée MangoDB
-mongoose.connect('mongodb+srv://ben3211:pmolK.12@sopekockocluster.yuhvo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://'+process.env.LOGIN+':'+process.env.PASSWORD+"@"+process.env.URL,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
@@ -25,6 +28,17 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
 });
+
+// Cookies en http-only
+app.use(session ({
+  secret : 's3Cur3',
+  cookie: {
+    secure: true,
+    httpOnly: true,
+    domain: 'http://localhost:3000',
+  }
+})
+);
 
 app.use(express.json());
 
