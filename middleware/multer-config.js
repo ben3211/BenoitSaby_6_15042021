@@ -1,30 +1,28 @@
 const multer = require ('multer');
 
-// Constante dictionnaire pour résoudre l'extension de fichier appropriée
+// Dictionary constant to resolve the appropriate file extension 
 const MIME_TYPES = {
     'image/jpg': 'jpg',
     'image/jpeg': 'jpg',
     'image/png': 'png',
 };
 
-// Création objet de configuration pour multer
-//DdiskStorage pour l'enregistraer sur le disk
+// Multer configuration
 const storage = multer.diskStorage ({
-    // L'objet passer a diskStorage à besoin de deux éléments, destination et filename
     destination: (req, file, callback) => {
-        // Callback null pour dire qu'il n'y a pas eu d'erreure
+        // null = no error
         callback (null, 'images')
     },
-    // Explique qu'elle nom de fichier utiliser 
+    // files name ? 
     filename: (req, file, callback) => {
-        // Prend le nom original et remplace par un underscore les espace si il y en à
+        // Underscor instead of spaces 
         const name = file.originalname.split(' ').join('_');
-        // Appliquer une extension au fichier corespondant au MINE_TYPE du fichier front 
+        // Apply an extension 
         const extension = MIME_TYPES[file.mimetype];
+        // Callback and file name creation
         callback (null, name + Date.now() + '.' + extension);
-        // Appel du callback, et création du filename + Date.now ajoute un time stump + l'ectension 
     }
 });
 
-// Export fichier unique et se seront des images
+// Single file export
 module.exports = multer ({ storage }).single('image');

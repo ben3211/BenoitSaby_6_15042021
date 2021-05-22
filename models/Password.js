@@ -1,6 +1,6 @@
 const passwordValidator = require ('password-validator'); 
 
-// Création de schéma 
+// schema creation
 const passwordSchema = new passwordValidator (); 
 
 

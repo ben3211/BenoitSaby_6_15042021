@@ -1,7 +1,7 @@
-// Importer mongoose
+// Mongoose
 const mongoose = require ('mongoose');
 
-// schema mongoose, informations dont nos données auront besoins
+// Mongoose schema
 const saucesSchema = mongoose.Schema({
   userId: { type: String, required: true },
   name: { type: String, required: true, unique: true },
@@ -16,5 +16,5 @@ const saucesSchema = mongoose.Schema({
   usersDisliked: { type: [String]} 
 });
 
-// Exportation de modele : c'est une methode du package mongoose pour utiliser les schemas
+// Model exportation: arguments (name, schema)
 module.exports = mongoose.model ('Sauces', saucesSchema);

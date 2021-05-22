@@ -2,31 +2,25 @@ const express = require ('express');
 const router = express.Router ();
 
 
-// Importation middleware 
+// Middleware importation
 const auth = require ('../middleware/auth');
 const saucesCtrl = require ('../controllers/sauces');
 const multer = require ('../middleware/multer-config')
 
 
-// Traitement des requêtes postes 
-// On remplace /api/stuff par un slash car c'est la route de base tout le temps la même.
-// 'Auth' pour le route que l'on souhaite proteger 
-// Penser à ne pas placer le traitmeent des images (multer) avant l'auth
-// Route POST
+// Requests processing
+// POST
 router.post ('/', auth, multer, saucesCtrl.creatSauces);
-
-// Route PUT / modifier
+// PUT 
 router.put('/:id', auth, multer, saucesCtrl.modifySauces);
-
-// Route DELETE
+// DELETE
 router.delete('/:id', auth, saucesCtrl.deleteSauces);
-
-// Route GET, :id dit à expresse que cette partie de la route est dinamique
+// GET
 router.get('/:id', auth, saucesCtrl.getOneSauces);
-
-// Route GET, le premier argument est l'éxtension de l'URL visé par l'application (appellé: route/end point)
+// GET
 router.get('/', auth, saucesCtrl.getAllSauces);
-
+// Post
 router.post('/:id/like', auth, saucesCtrl.likeSauces);
 
+// Router exportation
 module.exports = router;
