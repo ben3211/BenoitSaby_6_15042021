@@ -6,7 +6,7 @@ module.exports = (req, res, next) => {
     // Get token, const token return an array with 'Bearer' as 1st element and the token as second (we selectionne the second)
     const token = req.headers.authorization.split(' ')[1];
     // Decode token
-    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+    const decodedToken = jwt.verify(token, 'secret_chain_to_generate_the_token');
     // DecodedToken is an JS object, userId selection
     const userId = decodedToken.userId;
     // If there is a userId => check that it corresponds to the token 

@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const path = require ('path');
 const helmet = require("helmet");
 const session = require ('cookie-session');
+const authLimiter = require ('./middleware/authLimiter')
+const mongoSanitize = require('express-mongo-sanitize');
 
 // Router importation 
 const saucesRoutes = require ('./routes/sauces');
@@ -42,15 +44,23 @@ app.use(session ({
 
 app.use(express.json());
 
+// To remove data
+app.use(mongoSanitize());
+// Or, to replace prohibited characters with _
+app.use(
+  mongoSanitize({
+    replaceWith: '_',
+  }),
+);
+
 // Multer
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // Helmet
 app.use(helmet());
 
-// Save sauces router
+// Save router
 app.use ('/api/sauces', saucesRoutes);
-// Save auth router
 app.use('/api/auth', userRoutes);
 
 // App exportation
