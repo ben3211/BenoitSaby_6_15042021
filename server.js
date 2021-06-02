@@ -38,7 +38,7 @@ const errorHandler = error => {
   }
 };
 
-// node server will return express aplication.  
+// node server will return express application.  
 const server = http.createServer(app);
 
 server.on('error', errorHandler);

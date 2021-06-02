@@ -3,9 +3,10 @@ const Sauces = require ('../models/Sauces');
 const fs = require ('fs');
 
 exports.creatSauces = (req, res, next) => {
+    try {
     const sauceObject = JSON.parse(req.body.sauce);
     // ID creat by mangoDB
-    delete sauceObject._id;             
+    delete sauceObject._id;           
     const sauces = new Sauces ({
         ...sauceObject,                   
         // rewrite the image url 
@@ -15,30 +16,33 @@ exports.creatSauces = (req, res, next) => {
         usersLiked: [],
         usersDisliked: []              
     });
-    sauces.save ()                       
+    sauces.save ()   
         .then (() => res.status(201).json({message: 'Objet enregistré !'}))
-        .catch (error => res.status(400).json({ error }));
+        .catch (error => res.status(400).json({ error: 'ici' }));
+    } catch {
+        res.status(400).json({ error: 'Le nom de cette sauce existe déjà!'})
+    } 
 };
 
 exports.modifySauces = (req, res, next) => {
     let saucesObject = {};
     req.file ? (
-      // If the modification have an image
-      Sauces.findOne({ _id: req.params.id }).then((sauces) => {
-        // Delete old image
-        const filename = sauces.imageUrl.split('/images/')[1]
-        fs.unlinkSync(`images/${filename}`)
-      }),
-      saucesObject = {
-        // Modify data and add new image
-        ...JSON.parse(req.body.sauce),
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${ req.file.filename }`,
-        // If modification doesn't contain new image
-      }) : ( saucesObject = { ...req.body } )
+        // If the modification have an image
+        Sauces.findOne({ _id: req.params.id }).then((sauces) => {
+            // Delete old image
+            const filename = sauces.imageUrl.split('/images/')[1]
+            fs.unlinkSync(`images/${filename}`)
+        }),
+        saucesObject = {
+            // Modify data and add new image
+            ...JSON.parse(req.body.sauce),
+            imageUrl: `${req.protocol}://${req.get('host')}/images/${ req.file.filename }`,
+            // If modification doesn't contain new image
+        }) : ( saucesObject = { ...req.body } )
         // Apply sauceObject parameters 
     Sauces.updateOne({ _id: req.params.id }, { ...saucesObject,  _id: req.params.id })
       .then(() => res.status(200).json({ message: 'Sauce modifiée !' }))
-      .catch((error) => res.status(400).json({ error }))
+      .catch((error) => res.status(400).json({error: 'Le nom de cette sauce existe déjà!'}))
 };
 
 
