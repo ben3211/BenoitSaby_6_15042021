@@ -1,8 +1,7 @@
-# Construire une API sécurisée pour une application d'avis gastronomiques 
+# API sécurisée pour une application d'avis gastronomiques 
 
 ## So Pekocko
-![left 100%](images/So_Pekocko_logo.png)
-![left 100%](images/Logo_So_Pekocko.png)
+![](images/Logo_So_Pekocko.png)
 
 ***
 
